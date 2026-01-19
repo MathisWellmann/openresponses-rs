@@ -5,6 +5,14 @@ edition = "2024"
 
 [dependencies]
 futures = "0.3"
-progenitor = "0.11"
+progenitor = { git = "https://github.com/oxidecomputer/progenitor" }
 reqwest = { version = "0.12", features = ["json", "stream"] }
 serde = { version = "1.0", features = ["derive"] }
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1.0.0", features = ["serde", "v4"] }
+
+[build-dependencies]
+prettyplease = "0.2.22"
+progenitor = { git = "https://github.com/oxidecomputer/progenitor" }
+serde_json = "1.0"
+syn = "2.0"

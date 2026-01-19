@@ -18,6 +18,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "683d7910e743518b0e34f1186f92494becacb047c7b6bf616c96772180fef923"
 
 [[package]]
+name = "android_system_properties"
+version = "0.1.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "819e7219dbd41043ac279b19830f2efc897156490d7fd6ea916720117ee66311"
+dependencies = [
+ "libc",
+]
+
+[[package]]
 name = "atomic-waker"
 version = "1.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -75,7 +84,12 @@ version = "0.4.43"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "fac4744fb15ae8337dc853fee7fb3f4e48c0fbaa23d0afe49c447b4fab126118"
 dependencies = [
+ "iana-time-zone",
+ "js-sys",
  "num-traits",
+ "serde",
+ "wasm-bindgen",
+ "windows-link",
 ]
 
 [[package]]
@@ -452,6 +466,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "iana-time-zone"
+version = "0.1.64"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "33e57f83510bb73707521ebaffa789ec8caf86f9657cad665b092b581d40e9fb"
+dependencies = [
+ "android_system_properties",
+ "core-foundation-sys",
+ "iana-time-zone-haiku",
+ "js-sys",
+ "log",
+ "wasm-bindgen",
+ "windows-core",
+]
+
+[[package]]
+name = "iana-time-zone-haiku"
+version = "0.1.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f31827a206f56af32e590ba56d5d2d085f558508192593743f16b2306495269f"
+dependencies = [
+ "cc",
+]
+
+[[package]]
 name = "icu_collections"
 version = "2.1.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -691,10 +729,15 @@ dependencies = [
 name = "openresponses"
 version = "0.1.0"
 dependencies = [
+ "chrono",
  "futures",
+ "prettyplease",
  "progenitor",
- "reqwest",
+ "reqwest 0.12.28",
  "serde",
+ "serde_json",
+ "syn",
+ "uuid",
 ]
 
 [[package]]
@@ -775,6 +818,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "prettyplease"
+version = "0.2.37"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "479ca8adacdd7ce8f1fb39ce9ecccbfe93a3f1344b3d0d97f20bc0196208f62b"
+dependencies = [
+ "proc-macro2",
+ "syn",
+]
+
+[[package]]
 name = "proc-macro2"
 version = "1.0.105"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -786,8 +839,7 @@ dependencies = [
 [[package]]
 name = "progenitor"
 version = "0.11.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "2326f73d5326257514712436680ef8da4543ee47c0e9e0d501545c8909ee12e4"
+source = "git+https://github.com/oxidecomputer/progenitor#73fa5d3f50226069c87c69c85a19b2da715a1bf6"
 dependencies = [
  "progenitor-client",
  "progenitor-impl",
@@ -797,13 +849,12 @@ dependencies = [
 [[package]]
 name = "progenitor-client"
 version = "0.11.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "71a0beb939758f229cbae70a4889c7c76a4ac0e90f0b1e7ae9b4636a927d1018"
+source = "git+https://github.com/oxidecomputer/progenitor#73fa5d3f50226069c87c69c85a19b2da715a1bf6"
 dependencies = [
  "bytes",
  "futures-core",
  "percent-encoding",
- "reqwest",
+ "reqwest 0.13.1",
  "serde",
  "serde_json",
  "serde_urlencoded",
@@ -812,8 +863,7 @@ dependencies = [
 [[package]]
 name = "progenitor-impl"
 version = "0.11.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "90f6d9109b04e005bbdec84cacec7e81cc15533f2b5dc505f0defc212d270c15"
+source = "git+https://github.com/oxidecomputer/progenitor#73fa5d3f50226069c87c69c85a19b2da715a1bf6"
 dependencies = [
  "heck",
  "http",
@@ -834,8 +884,7 @@ dependencies = [
 [[package]]
 name = "progenitor-macro"
 version = "0.11.2"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "46596c574831739c661f22923fe587399c61f5e3e79b73cc9a93644c72248d84"
+source = "git+https://github.com/oxidecomputer/progenitor#73fa5d3f50226069c87c69c85a19b2da715a1bf6"
 dependencies = [
  "openapiv3",
  "proc-macro2",
@@ -935,6 +984,41 @@ dependencies = [
  "sync_wrapper",
  "tokio",
  "tokio-native-tls",
+ "tokio-util",
+ "tower",
+ "tower-http",
+ "tower-service",
+ "url",
+ "wasm-bindgen",
+ "wasm-bindgen-futures",
+ "wasm-streams",
+ "web-sys",
+]
+
+[[package]]
+name = "reqwest"
+version = "0.13.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "04e9018c9d814e5f30cc16a0f03271aeab3571e609612d9fe78c1aa8d11c2f62"
+dependencies = [
+ "base64",
+ "bytes",
+ "futures-core",
+ "futures-util",
+ "http",
+ "http-body",
+ "http-body-util",
+ "hyper",
+ "hyper-util",
+ "js-sys",
+ "log",
+ "percent-encoding",
+ "pin-project-lite",
+ "serde",
+ "serde_json",
+ "serde_urlencoded",
+ "sync_wrapper",
+ "tokio",
  "tokio-util",
  "tower",
  "tower-http",
@@ -1431,9 +1515,9 @@ checksum = "e421abadd41a4225275504ea4d6566923418b7f05506fbc9c0fe86ba7396114b"
 
 [[package]]
 name = "typify"
-version = "0.4.3"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7144144e97e987c94758a3017c920a027feac0799df325d6df4fc8f08d02068e"
+checksum = "e6d5bcc6f62eb1fa8aa4098f39b29f93dcb914e17158b76c50360911257aa629"
 dependencies = [
  "typify-impl",
  "typify-macro",
@@ -1441,9 +1525,9 @@ dependencies = [
 
 [[package]]
 name = "typify-impl"
-version = "0.4.3"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "062879d46aa4c9dfe0d33b035bbaf512da192131645d05deacb7033ec8581a09"
+checksum = "a1eb359f7ffa4f9ebe947fa11a1b2da054564502968db5f317b7e37693cb2240"
 dependencies = [
  "heck",
  "log",
@@ -1461,9 +1545,9 @@ dependencies = [
 
 [[package]]
 name = "typify-macro"
-version = "0.4.3"
+version = "0.5.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "9708a3ceb6660ba3f8d2b8f0567e7d4b8b198e2b94d093b8a6077a751425de9e"
+checksum = "911c32f3c8514b048c1b228361bebb5e6d73aeec01696e8cc0e82e2ffef8ab7a"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1517,6 +1601,12 @@ name = "uuid"
 version = "1.19.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e2e054861b4bd027cd373e18e8d8d8e6548085000e41290d95ce0c373a654b4a"
+dependencies = [
+ "getrandom 0.3.4",
+ "js-sys",
+ "serde_core",
+ "wasm-bindgen",
+]
 
 [[package]]
 name = "vcpkg"
@@ -1628,6 +1718,41 @@ checksum = "312e32e551d92129218ea9a2452120f4aabc03529ef03e4d0d82fb2780608598"
 dependencies = [
  "js-sys",
  "wasm-bindgen",
+]
+
+[[package]]
+name = "windows-core"
+version = "0.62.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b8e83a14d34d0623b51dce9581199302a221863196a1dde71a7663a4c2be9deb"
+dependencies = [
+ "windows-implement",
+ "windows-interface",
+ "windows-link",
+ "windows-result",
+ "windows-strings",
+]
+
+[[package]]
+name = "windows-implement"
+version = "0.60.2"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "053e2e040ab57b9dc951b72c264860db7eb3b0200ba345b4e4c3b14f67855ddf"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "windows-interface"
+version = "0.59.3"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "3f316c4a2570ba26bbec722032c4099d8c8bc095efccdc15688708623367e358"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
 ]
 
 [[package]]
