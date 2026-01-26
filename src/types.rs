@@ -20,10 +20,13 @@
 //!
 //! No description provided
 
-use serde::{Deserialize, Serialize};
+use serde::{
+    Deserialize,
+    Serialize,
+};
 use validator::Validate;
-static REGEX_FUNCTION_CALL_ITEM_PARAM_NAME: std::sync::LazyLock<regex::Regex> = std::sync::LazyLock::new(||
-regex::Regex::new("^[a-zA-Z0-9_-]+$").expect("invalid regex"));
+static REGEX_FUNCTION_CALL_ITEM_PARAM_NAME: std::sync::LazyLock<regex::Regex> =
+    std::sync::LazyLock::new(|| regex::Regex::new("^[a-zA-Z0-9_-]+$").expect("invalid regex"));
 #[derive(Debug, Clone, PartialEq, Deserialize, oas3_gen_support::Default)]
 #[serde(default)]
 pub struct AllowedToolChoice {
@@ -35,13 +38,7 @@ pub struct AllowedToolChoice {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct AllowedToolsParam {
@@ -261,9 +258,7 @@ impl CreateresponseRequest {
 }
 impl CreateresponseRequest {
     ///Parse the HTTP response into the response enum.
-    pub async fn parse_response(
-        req: reqwest::Response,
-    ) -> anyhow::Result<CreateresponseResponse> {
+    pub async fn parse_response(req: reqwest::Response) -> anyhow::Result<CreateresponseResponse> {
         let status = req.status();
         if status.is_success() {
             let content_type_str = req
@@ -272,16 +267,13 @@ impl CreateresponseRequest {
                 .and_then(|v| v.to_str().ok())
                 .unwrap_or("application/json");
             if content_type_str.contains("event-stream") {
-                let data = <oas3_gen_support::EventStream<
-                    Response200Response,
-                >>::from_response(req);
+                let data = <oas3_gen_support::EventStream<Response200Response>>::from_response(req);
                 return Ok(CreateresponseResponse::OkEventStream(data));
             }
             if content_type_str.contains("json") {
-                let data = oas3_gen_support::Diagnostics::<
-                    ResponseResource,
-                >::json_with_diagnostics(req)
-                    .await?;
+                let data =
+                    oas3_gen_support::Diagnostics::<ResponseResource>::json_with_diagnostics(req)
+                        .await?;
                 return Ok(CreateresponseResponse::Ok(data));
             }
         }
@@ -318,13 +310,7 @@ pub struct DeveloperMessageItemParam {
 pub type EmptyModelParam = serde_json::Value;
 ///An error that occurred while generating the response.
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 pub struct Error {
     ///A machine-readable error code that was returned.
@@ -337,13 +323,7 @@ pub struct Error {
 ///An error payload that was emitted for a streaming error event.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 pub struct ErrorPayload {
     pub code: Option<String>,
@@ -391,13 +371,7 @@ pub struct FunctionCall {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct FunctionCallItemParam {
@@ -438,13 +412,7 @@ pub struct FunctionCallOutput {
 ///The output of a function tool call.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct FunctionCallOutputItemParam {
@@ -480,16 +448,7 @@ pub enum FunctionCallOutputOutput {
     Array(Vec<InputContentKind>),
 }
 ///Similar to `FunctionCallStatus`. All three options are allowed here for compatibility, but because in practice these items will be provided by developers, only `completed` should be used.
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum FunctionCallOutputStatusEnum {
     #[serde(rename = "in_progress")]
     #[default]
@@ -508,16 +467,7 @@ impl core::fmt::Display for FunctionCallOutputStatusEnum {
         }
     }
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum FunctionCallStatus {
     #[serde(rename = "in_progress")]
     #[default]
@@ -539,13 +489,7 @@ impl core::fmt::Display for FunctionCallStatus {
 ///Defines a function in your own code the model can choose to call. Learn more about [function calling](https://platform.openai.com/docs/guides/function-calling).
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct FunctionTool {
@@ -570,13 +514,7 @@ pub struct FunctionToolChoice {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct FunctionToolParam {
@@ -592,16 +530,7 @@ pub struct FunctionToolParam {
     #[default(Some("function".to_string()))]
     pub r#type: Option<String>,
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum ImageDetail {
     #[serde(rename = "low")]
     #[default]
@@ -638,13 +567,7 @@ impl core::fmt::Display for IncludeEnum {
 }
 ///Details about why the response was incomplete.
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 pub struct IncompleteDetails {
     ///The reason the response could not be completed.
@@ -804,13 +727,7 @@ impl InputParamKind {
 ///A text input to the model.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct InputTextContent {
@@ -825,13 +742,7 @@ pub struct InputTextContent {
 ///A text input to the model.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct InputTextContentParam {
@@ -851,13 +762,7 @@ pub struct InputTokensDetails {
 }
 ///A content block representing a video input to the model.
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct InputVideoContent {
@@ -940,13 +845,7 @@ impl ItemParam {
 ///An internal identifier for an item to reference.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 pub struct ItemReferenceParam {
     ///The ID of the item to reference.
@@ -965,13 +864,7 @@ pub struct JsonObjectResponseFormat {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct JsonSchemaResponseFormat {
@@ -1002,27 +895,12 @@ pub struct JsonSchemaResponseFormatParam {
     #[default(Some("json_schema".to_string()))]
     pub r#type: Option<String>,
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 #[serde(untagged)]
 pub enum JsonSchemaResponseFormatSchema {}
 ///The log probability of a token.
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 pub struct LogProb {
     pub bytes: Vec<i64>,
@@ -1056,16 +934,7 @@ pub enum MessageItemParamContent {
     ///The message content, as a single string.
     String(String),
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum MessageRole {
     #[serde(rename = "user")]
     #[default]
@@ -1087,16 +956,7 @@ impl core::fmt::Display for MessageRole {
         }
     }
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum MessageStatus {
     #[serde(rename = "in_progress")]
     #[default]
@@ -1126,13 +986,7 @@ pub struct MetadataParam {
 ///A text output from the model.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct OutputTextContent {
@@ -1151,13 +1005,7 @@ pub struct OutputTextContent {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct OutputTextContentParam {
@@ -1208,16 +1056,7 @@ pub struct ReasoningBody {
     #[default(Some("reasoning".to_string()))]
     pub r#type: Option<String>,
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum ReasoningEffortEnum {
     #[serde(rename = "none")]
     #[default]
@@ -1244,13 +1083,7 @@ impl core::fmt::Display for ReasoningEffortEnum {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ReasoningItemParam {
@@ -1274,13 +1107,7 @@ pub struct ReasoningParam {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ReasoningSummaryContentParam {
@@ -1292,16 +1119,7 @@ pub struct ReasoningSummaryContentParam {
     #[default(Some("summary_text".to_string()))]
     pub r#type: Option<String>,
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum ReasoningSummaryEnum {
     #[serde(rename = "concise")]
     #[default]
@@ -1323,13 +1141,7 @@ impl core::fmt::Display for ReasoningSummaryEnum {
 ///Reasoning text from the model.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ReasoningTextContent {
@@ -1344,13 +1156,7 @@ pub struct ReasoningTextContent {
 ///A refusal from the model.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct RefusalContent {
@@ -1364,13 +1170,7 @@ pub struct RefusalContent {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct RefusalContentParam {
@@ -1451,13 +1251,7 @@ pub struct ResponseCompletedStreamingEvent {
 ///A streaming event that indicated a content part was added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseContentPartAddedStreamingEvent {
@@ -1480,13 +1274,7 @@ pub struct ResponseContentPartAddedStreamingEvent {
 ///A streaming event that indicated a content part was completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseContentPartDoneStreamingEvent {
@@ -1535,13 +1323,7 @@ pub struct ResponseFailedStreamingEvent {
 ///A streaming event that indicated function call arguments were incrementally added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseFunctionCallArgumentsDeltaStreamingEvent {
@@ -1565,13 +1347,7 @@ pub struct ResponseFunctionCallArgumentsDeltaStreamingEvent {
 ///A streaming event that indicated function call arguments were completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseFunctionCallArgumentsDoneStreamingEvent {
@@ -1649,13 +1425,7 @@ pub struct ResponseOutputItemDoneStreamingEvent {
 ///A streaming event that indicated an output text annotation was added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseOutputTextAnnotationAddedStreamingEvent {
@@ -1679,13 +1449,7 @@ pub struct ResponseOutputTextAnnotationAddedStreamingEvent {
 ///A streaming event that indicated output text was incrementally added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseOutputTextDeltaStreamingEvent {
@@ -1714,13 +1478,7 @@ pub struct ResponseOutputTextDeltaStreamingEvent {
 ///A streaming event that indicated output text was completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseOutputTextDoneStreamingEvent {
@@ -1760,13 +1518,7 @@ pub struct ResponseQueuedStreamingEvent {
 ///A streaming event that indicated reasoning text was incrementally added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseReasoningDeltaStreamingEvent {
@@ -1792,13 +1544,7 @@ pub struct ResponseReasoningDeltaStreamingEvent {
 ///A streaming event that indicated reasoning text was completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseReasoningDoneStreamingEvent {
@@ -1822,13 +1568,7 @@ pub struct ResponseReasoningDoneStreamingEvent {
 ///A streaming event that indicated a reasoning summary was incrementally added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseReasoningSummaryDeltaStreamingEvent {
@@ -1854,13 +1594,7 @@ pub struct ResponseReasoningSummaryDeltaStreamingEvent {
 ///A streaming event that indicated a reasoning summary was completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseReasoningSummaryDoneStreamingEvent {
@@ -1884,13 +1618,7 @@ pub struct ResponseReasoningSummaryDoneStreamingEvent {
 ///A streaming event that indicated a reasoning summary part was added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseReasoningSummaryPartAddedStreamingEvent {
@@ -1913,13 +1641,7 @@ pub struct ResponseReasoningSummaryPartAddedStreamingEvent {
 ///A streaming event that indicated a reasoning summary part was completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseReasoningSummaryPartDoneStreamingEvent {
@@ -1942,13 +1664,7 @@ pub struct ResponseReasoningSummaryPartDoneStreamingEvent {
 ///A streaming event that indicated refusal text was incrementally added.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseRefusalDeltaStreamingEvent {
@@ -1972,13 +1688,7 @@ pub struct ResponseRefusalDeltaStreamingEvent {
 ///A streaming event that indicated refusal text was completed.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct ResponseRefusalDoneStreamingEvent {
@@ -2080,16 +1790,7 @@ impl ResponsesToolParam {
         })
     }
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum ServiceTierEnum {
     #[serde(rename = "auto")]
     #[default]
@@ -2113,13 +1814,7 @@ impl core::fmt::Display for ServiceTierEnum {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct SpecificFunctionParam {
@@ -2211,13 +1906,7 @@ impl StreamingEventPart {
 ///A summary text from the model.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct SummaryTextContent {
@@ -2248,13 +1937,7 @@ pub struct SystemMessageItemParam {
 ///A text content.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct TextContent {
@@ -2359,16 +2042,7 @@ impl ToolChoiceParam {
         })
     }
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum ToolChoiceValueEnum {
     #[serde(rename = "none")]
     #[default]
@@ -2400,13 +2074,7 @@ impl ToolKind {
 }
 ///The top log probability of a token.
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 pub struct TopLogProb {
     pub bytes: Vec<i64>,
@@ -2414,16 +2082,7 @@ pub struct TopLogProb {
     #[validate(length(min = 1u64))]
     pub token: String,
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum TruncationEnum {
     #[serde(rename = "auto")]
     #[default]
@@ -2442,13 +2101,7 @@ impl core::fmt::Display for TruncationEnum {
 ///A citation for a web resource used to generate a model response.
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct UrlCitationBody {
@@ -2469,13 +2122,7 @@ pub struct UrlCitationBody {
 }
 #[serde_with::skip_serializing_none]
 #[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Serialize,
-    Deserialize,
-    validator::Validate,
-    oas3_gen_support::Default
+    Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
 )]
 #[serde(default)]
 pub struct UrlCitationParam {
@@ -2533,16 +2180,7 @@ pub enum UserMessageItemParamContent {
     ///The message content, as a single string.
     String(String),
 }
-#[derive(
-    Debug,
-    Clone,
-    PartialEq,
-    Eq,
-    Hash,
-    Serialize,
-    Deserialize,
-    oas3_gen_support::Default
-)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum VerbosityEnum {
     #[serde(rename = "low")]
     #[default]
@@ -2561,4 +2199,3 @@ impl core::fmt::Display for VerbosityEnum {
         }
     }
 }
-

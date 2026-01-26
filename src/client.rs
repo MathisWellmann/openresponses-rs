@@ -21,7 +21,10 @@
 //! No description provided
 
 use anyhow::Context;
-use reqwest::{Client, Url};
+use reqwest::{
+    Client,
+    Url,
+};
 use validator::Validate;
 pub const BASE_URL: &str = "https://api.openai.com/v1";
 #[derive(Debug, Clone)]
@@ -47,17 +50,19 @@ impl OpenAiApiClient {
     /// Create a client with a custom base URL.
     pub fn with_base_url(base_url: impl AsRef<str>) -> anyhow::Result<Self> {
         Ok(Self {
-            client: Client::builder().build().context("building reqwest client")?,
+            client: Client::builder()
+                .build()
+                .context("building reqwest client")?,
             base_url: Url::parse(base_url.as_ref()).context("parsing base url")?,
         })
     }
     /// Create a client from an existing `reqwest::Client`.
-    pub fn with_client(
-        base_url: impl AsRef<str>,
-        client: Client,
-    ) -> anyhow::Result<Self> {
+    pub fn with_client(base_url: impl AsRef<str>, client: Client) -> anyhow::Result<Self> {
         let url = Url::parse(base_url.as_ref()).context("parsing base url")?;
-        Ok(Self { client, base_url: url })
+        Ok(Self {
+            client,
+            base_url: url,
+        })
     }
     ///Create response
     ///
@@ -81,4 +86,3 @@ impl OpenAiApiClient {
         Ok(CreateresponseRequest::parse_response(response).await?)
     }
 }
-

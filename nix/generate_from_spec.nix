@@ -1,4 +1,4 @@
-{pkgs, oas3-gen}: let
+{pkgs, oas3-gen, rust}: let
   SPEC_URL = "https://raw.githubusercontent.com/openresponses/openresponses/refs/heads/main/public/openapi/openapi.json";
 in
   pkgs.writeShellScriptBin "generate_from_spec" ''
@@ -7,4 +7,5 @@ in
 
     ${oas3-gen}/bin/oas3-gen generate -i /tmp/openapi.json -o src/types.rs
     ${oas3-gen}/bin/oas3-gen generate client -i /tmp/openapi.json -o src/client.rs
+    ${rust}/bin/cargo fmt
   ''

@@ -21,13 +21,14 @@
         pkgs = import nixpkgs {
           inherit system overlays;
         };
-        rust = pkgs.rust-bin.stable.latest.default;
+        rust = pkgs.rust-bin.selectLatestNightlyWith (
+            toolchain: toolchain.default
+          );
         oas3-gen = pkgs.callPackage ./nix/oas3-gen.nix {};
       in
         with pkgs; {
           devShells.default = mkShell {
             buildInputs = [
-              (lib.hiPrio rust-bin.nightly."2026-01-01".rustfmt)
               rust
               cargo-nextest
               cargo-semver-checks
@@ -43,7 +44,7 @@
           apps = rec {
             default = generate_from_spec;
             generate_from_spec = flake-utils.lib.mkApp {
-              drv = import nix/generate_from_spec.nix {inherit pkgs oas3-gen;};
+              drv = import nix/generate_from_spec.nix {inherit pkgs oas3-gen rust;};
             };
           };
         }
