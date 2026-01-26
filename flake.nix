@@ -6,6 +6,7 @@
     rust-overlay.url = "github:oxalica/rust-overlay";
     flake-utils.url = "github:numtide/flake-utils";
     hongdown.url = "github:dahlia/hongdown";
+    oas3-gen.url = "github:MathisWellmann/oas3-gen";
   };
 
   outputs = {
@@ -13,6 +14,7 @@
     rust-overlay,
     flake-utils,
     hongdown,
+    oas3-gen,
     ...
   }:
     flake-utils.lib.eachDefaultSystem (
@@ -24,7 +26,7 @@
         rust = pkgs.rust-bin.selectLatestNightlyWith (
             toolchain: toolchain.default
           );
-        oas3-gen = pkgs.callPackage ./nix/oas3-gen.nix {};
+        oas3 = oas3-gen.packages.${system}.oas3-gen;
       in
         with pkgs; {
           devShells.default = mkShell {
@@ -34,14 +36,14 @@
               cargo-machete
               taplo
               hongdown.packages.${system}.hongdown
-              oas3-gen
+              oas3
             ];
             RUST_BACKTRACE = "1";
           };
           apps = rec {
             default = generate_from_spec;
             generate_from_spec = flake-utils.lib.mkApp {
-              drv = import nix/generate_from_spec.nix {inherit pkgs oas3-gen rust;};
+              drv = import nix/generate_from_spec.nix {inherit pkgs oas3 rust;};
             };
           };
         }
