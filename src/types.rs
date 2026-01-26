@@ -895,9 +895,15 @@ pub struct JsonSchemaResponseFormatParam {
     #[default(Some("json_schema".to_string()))]
     pub r#type: Option<String>,
 }
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
-#[serde(untagged)]
-pub enum JsonSchemaResponseFormatSchema {}
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize)]
+pub struct JsonSchemaResponseFormatSchema {}
+
+impl Default for JsonSchemaResponseFormatSchema {
+    fn default() -> Self {
+        Self{}
+    }
+}
+
 ///The log probability of a token.
 #[derive(
     Debug, Clone, PartialEq, Serialize, Deserialize, validator::Validate, oas3_gen_support::Default,
@@ -2024,6 +2030,12 @@ impl Tool {
             ..Default::default()
         })
     }
+}
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, oas3_gen_support::Default)]
+#[serde(untagged)]
+pub enum SpecificToolChoiceParam{
+    #[default]
+    SpecificFunctionParam(SpecificFunctionParam),
 }
 ///Controls which tool the model should use, if any.
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, oas3_gen_support::Default)]
