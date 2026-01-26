@@ -6,4 +6,5 @@ in
     cat /tmp/openapi.json
 
     ${oas3-gen}/bin/oas3-gen generate -i /tmp/openapi.json -o src/types.rs
+    ${oas3-gen}/bin/oas3-gen generate client -i /tmp/openapi.json -o src/client.rs
   ''
