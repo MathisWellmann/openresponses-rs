@@ -30,13 +30,10 @@
           devShells.default = mkShell {
             buildInputs = [
               rust
-              cargo-nextest
               cargo-semver-checks
               cargo-machete
               taplo
               hongdown.packages.${system}.hongdown
-              openssl
-              pkg-config
               oas3-gen
             ];
             RUST_BACKTRACE = "1";
