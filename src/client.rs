@@ -20,6 +20,7 @@
 //!
 //! No description provided
 
+use crate::*;
 use anyhow::Context;
 use reqwest::{
     Client,

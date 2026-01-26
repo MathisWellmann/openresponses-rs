@@ -12,8 +12,10 @@ To generate the types yourself from the newest HEAD of `main`:
     ~~~~ shell
     sh <(curl --proto '=https' --tlsv1.2 -L https://nixos.org/nix/install) --daemon
     ~~~~
+
  -  Do `nix run`, which will fetch the OpenAPI spec, generate the rust types and
-    format the resulting code.
+    format the resulting code. Some manual changes may be required to make
+    everything compile.
 
 [OpenResponses]: https://github.com/openresponses/openresponses
 [oas3-gen]: https://github.com/eklipse2k8/oas3-gen
