@@ -22,6 +22,7 @@
           inherit system overlays;
         };
         rust = pkgs.rust-bin.stable.latest.default;
+        oas3-gen = pkgs.callPackage ./nix/oas3-gen.nix {};
       in
         with pkgs; {
           devShells.default = mkShell {
@@ -35,13 +36,14 @@
               hongdown.packages.${system}.hongdown
               openssl
               pkg-config
+              oas3-gen
             ];
             RUST_BACKTRACE = "1";
           };
           apps = rec {
             default = generate_from_spec;
             generate_from_spec = flake-utils.lib.mkApp {
-              drv = (import nix/generate_from_spec.nix { inherit pkgs; });
+              drv = import nix/generate_from_spec.nix {inherit pkgs;};
             };
           };
         }
