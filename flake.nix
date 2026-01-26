@@ -38,6 +38,12 @@
             ];
             RUST_BACKTRACE = "1";
           };
+          apps = rec {
+            default = generate_from_spec;
+            generate_from_spec = flake-utils.lib.mkApp {
+              drv = (import nix/generate_from_spec.nix { inherit pkgs; });
+            };
+          };
         }
     );
 }
