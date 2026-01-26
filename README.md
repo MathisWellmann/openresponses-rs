@@ -6,7 +6,7 @@ API specification, which is available as an OpenAPI 3.1 spec.
 
 Generation is done using [oas3-gen]
 
-To generate the types yourself from the newest HEAD of `main`:
+To generate the types yourself from the newest [HEAD of upstream `main`]:
 
  -  Make sure you have `nix` installed or install it with:
 
@@ -20,3 +20,10 @@ To generate the types yourself from the newest HEAD of `main`:
 
 [OpenResponses]: https://github.com/openresponses/openresponses
 [oas3-gen]: https://github.com/eklipse2k8/oas3-gen
+[HEAD of upstream `main`]: https://raw.githubusercontent.com/openresponses/openresponses/refs/heads/main/public/openapi/openapi.json
+
+
+TODOs:
+------
+
+ -  publish to `crates.io`
