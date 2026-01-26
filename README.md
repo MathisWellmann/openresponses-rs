@@ -2,8 +2,9 @@ OpenResponses Rust Types
 ========================
 
 This repo contains automatically generated rust types for the [OpenResponses]
-API specification, which is available as an OpenAPI 3.1 spec. Generation is
-done using [oas3-gen]
+API specification, which is available as an OpenAPI 3.1 spec.
+
+Generation is done using [oas3-gen]
 
 To generate the types yourself from the newest HEAD of `main`:
 
