@@ -202,7 +202,7 @@ impl ContentKind {
     }
 }
 #[serde_with::skip_serializing_none]
-#[derive(Debug, Clone, PartialEq, Serialize, oas3_gen_support::Default)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, oas3_gen_support::Default)]
 pub struct CreateResponseBody {
     ///Whether to run the request in the background and return immediately.
     pub background: Option<bool>,
@@ -234,7 +234,7 @@ pub struct CreateResponseBody {
     pub top_p: Option<f64>,
     pub truncation: Option<serde_json::Value>,
 }
-#[derive(Debug, Clone, PartialEq, Serialize, oas3_gen_support::Default)]
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize, oas3_gen_support::Default)]
 #[serde(untagged)]
 pub enum CreateResponseBodyTools {
     ///A list of tools that the model may call while generating the response.
@@ -549,7 +549,7 @@ impl core::fmt::Display for ImageDetail {
         }
     }
 }
-#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, oas3_gen_support::Default)]
+#[derive(Debug, Clone, PartialEq, Eq, Hash, Serialize, Deserialize, oas3_gen_support::Default)]
 pub enum IncludeEnum {
     #[serde(rename = "reasoning.encrypted_content")]
     #[default]
