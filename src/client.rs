@@ -20,13 +20,14 @@
 //!
 //! No description provided
 
-use crate::*;
 use anyhow::Context;
 use reqwest::{
     Client,
     Url,
 };
 use validator::Validate;
+
+use crate::*;
 pub const BASE_URL: &str = "https://api.openai.com/v1";
 #[derive(Debug, Clone)]
 pub struct OpenAiApiClient {
