@@ -24,19 +24,18 @@
           inherit system overlays;
         };
         rust = pkgs.rust-bin.selectLatestNightlyWith (
-            toolchain: toolchain.default
-          );
+          toolchain: toolchain.default
+        );
         oas3 = oas3-gen.packages.${system}.oas3-gen;
         buildInputs = [
           rust
         ];
         tools = with pkgs; [
-              cargo-semver-checks
-              cargo-machete
-              taplo
-              hongdown.packages.${system}.hongdown
-              oas3
-          
+          cargo-semver-checks
+          cargo-machete
+          taplo
+          hongdown.packages.${system}.hongdown
+          oas3
         ];
         nix_tools = with pkgs; [
           alejandra # Nix code formatter.
