@@ -1,6 +1,12 @@
 [package]
+authors = ["MathisWellmann <wellmannmathis@gmail.com>"]
+categories = ["data-structures"]
+description = "OpenResponses API types, generated from the OpenAPI specification."
 edition = "2024"
+keywords = ["OpenAI", "ai", "llms"]
+license = "MIT"
 name = "openresponses"
+repository = "https://github.com/MathisWellmann/openresponses-rs"
 version = "0.1.0"
 
 [dependencies]
