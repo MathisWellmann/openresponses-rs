@@ -27,17 +27,26 @@
             toolchain: toolchain.default
           );
         oas3 = oas3-gen.packages.${system}.oas3-gen;
-      in
-        with pkgs; {
-          devShells.default = mkShell {
-            buildInputs = [
-              rust
+        buildInputs = [
+          rust
+        ];
+        tools = with pkgs; [
               cargo-semver-checks
               cargo-machete
               taplo
               hongdown.packages.${system}.hongdown
               oas3
-            ];
+          
+        ];
+        nix_tools = with pkgs; [
+          alejandra # Nix code formatter.
+          deadnix # Nix dead code checker.
+          statix # Nix static code checker.
+        ];
+      in
+        with pkgs; {
+          devShells.default = mkShell {
+            buildInputs = buildInputs ++ tools ++ nix_tools;
             RUST_BACKTRACE = "1";
           };
           apps = rec {
