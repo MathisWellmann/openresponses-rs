@@ -900,7 +900,7 @@ pub struct JsonSchemaResponseFormatSchema {}
 
 impl Default for JsonSchemaResponseFormatSchema {
     fn default() -> Self {
-        Self{}
+        Self {}
     }
 }
 
@@ -2033,7 +2033,7 @@ impl Tool {
 }
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize, oas3_gen_support::Default)]
 #[serde(untagged)]
-pub enum SpecificToolChoiceParam{
+pub enum SpecificToolChoiceParam {
     #[default]
     SpecificFunctionParam(SpecificFunctionParam),
 }
