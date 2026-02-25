@@ -7,7 +7,7 @@ keywords = ["OpenAI", "ai", "llms"]
 license = "MIT"
 name = "openresponses"
 repository = "https://github.com/MathisWellmann/openresponses-rs"
-version = "0.1.0"
+version = "0.1.1"
 
 [dependencies]
 anyhow = "1"
